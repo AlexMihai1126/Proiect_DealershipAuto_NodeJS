@@ -1,12 +1,13 @@
+require('dotenv').config();
 const LocalUser = require('passport-local').Strategy;
 const {Client} = require("pg");
 const bcr = require("bcrypt");
 
-var client= new Client({database:"mds",
-        user:"alexm1126",
-        password:"alex",
-        host:"localhost",
-        port:5432});
+var client= new Client({database:`${process.env.DB_NAME}`,
+        user:`${process.env.DB_USER}`,
+        password:`${process.env.DB_PASS}`,
+        host:`${process.env.DB_ADDR}`,
+        port:process.env.DB_PORT});
 client.connect();
 
 const authUser = function(email, parola, done){

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const { Client } = require("pg");
@@ -15,17 +16,22 @@ initPassport(passport);
 globalObj={
     brands: [],
     kmMinMax: [],
-    pretMinMax:[],
+    pretMinMax:[]
+}
+
+pathsObj={
     folderScss: path.join(__dirname, "static/scss"),
     folderCss: path.join(__dirname,"/static/css"),
     folderBkp: path.join(__dirname,"bkp")
 }
 
-var client= new Client({database:"mds",
-        user:"alexm1126",
-        password:"alex",
-        host:"localhost",
-        port:5432});
+var saveCssBackups = 0;
+
+var client= new Client({database:`${process.env.DB_NAME}`,
+        user:`${process.env.DB_USER}`,
+        password:`${process.env.DB_PASS}`,
+        host:`${process.env.DB_ADDR}`,
+        port:process.env.DB_PORT});
 client.connect();
 
 const PORT= process.env.PORT || 32767;
@@ -333,18 +339,21 @@ function compileScss(pathScss, reason, pathCss){
     }
     
     if (!path.isAbsolute(pathScss)){
-        pathScss=path.join(globalObj.folderScss,pathScss);
+        pathScss=path.join(pathsObj.folderScss,pathScss);
     }
 
     if (!path.isAbsolute(pathCss)){
-        pathCss=path.join(globalObj.folderCss,pathCss);
+        pathCss=path.join(pathsObj.folderCss,pathCss);
     } // la acest punct avem cai absolute in pathScss si pathCss
     let currentFileCss=path.basename(pathCss);
 
-    if(fs.existsSync(pathCss)){
+    if(fs.existsSync(pathCss) && saveCssBackups == 1){
         let pathBkp = path.parse(pathCss).name + fileNameTS + "_" + reason + ".css";
-        fs.copyFileSync(pathCss, path.join(globalObj.folderBkp,pathBkp));
-        console.log("Creare fisier backup in folderul",globalObj.folderBkp,"fisierul",pathBkp);
+        if(!fs.existsSync(pathsObj.folderBkp)){
+            fs.mkdirSync(pathsObj.folderBkp);
+        }
+        fs.copyFileSync(pathCss, path.join(pathsObj.folderBkp,pathBkp));
+        console.log("Creare fisier backup in folderul",pathsObj.folderBkp,"fisierul",pathBkp);
     }
 
     rez=sass.compile(pathScss,{"sourceMap":true});
@@ -352,7 +361,7 @@ function compileScss(pathScss, reason, pathCss){
     console.log("Fisierul SCSS",pathScss,"a fost compilat in",pathCss);
 } 
 
-scssFiles=fs.readdirSync(globalObj.folderScss);
+scssFiles=fs.readdirSync(pathsObj.folderScss);
 for(let fileName of scssFiles){
     if(path.extname(fileName)==".scss"){
         compileScss(fileName,"startup");
@@ -360,9 +369,9 @@ for(let fileName of scssFiles){
 }
 
 var timedOut;
-fs.watch(globalObj.folderScss, function(changeAction, fileNameChanged){ //verifica actiunea care s-a intamplat pe un anumit fisier
+fs.watch(pathsObj.folderScss, function(changeAction, fileNameChanged){ //verifica actiunea care s-a intamplat pe un anumit fisier
     if(changeAction=="change" || changeAction=="rename"){
-        let updatedFilePath=path.join(globalObj.folderScss, fileNameChanged);
+        let updatedFilePath=path.join(pathsObj.folderScss, fileNameChanged);
         if(fs.existsSync(updatedFilePath) && !timedOut){
             console.log(changeAction,fileNameChanged);
             timedOut = setTimeout(function() { timedOut=null }, 5000); //blochez recompilarea pt 5 secunde, bug din fs.watch() care inregistreaza mai multe evenimente per schimbare
