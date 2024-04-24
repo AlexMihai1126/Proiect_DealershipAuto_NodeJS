@@ -1,17 +1,17 @@
 @use '../../node_modules/bootstrap/scss/bootstrap.scss' with (
-    $primary: #233D25,
-    $secondary: #C6A94E,
+    $primary: #257D7D,
+    $secondary: #25527D,
     $font-family-sans-serif: Lato,
-    $font-size-base:1rem,
+    $font-size-base: 1rem,
     $h1-font-size: 2rem,
     $h2-font-size: 1.75rem,
     $h3-font-size: 1.2rem,
     $h4-font-size: 0.95rem,
     $h5-font-size: 0.85rem,
     $h6-font-size: 0.65rem,
-    $border-radius:0.25rem,
-    $body-bg: #F2F0E4,
-    $form-range-track-bg:#C6A94E,
-    $input-bg:#C6A94E,
-    $input-border-width:0.05rem
+    $border-radius: 0.25rem,
+    $body-bg: #d3d3d33b,
+    $form-range-track-bg: #257d7d3c,
+    $input-bg: #257d7d21,
+    $input-border-width: 0.05rem
 )
