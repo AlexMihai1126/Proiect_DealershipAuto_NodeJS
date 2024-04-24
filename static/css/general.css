@@ -1,0 +1,15 @@
+body *::selection{
+    background-color: #C6A94E6f;
+    color: #233D25;
+}
+
+main{
+    padding:0.5rem;
+}
+
+footer{
+    padding: 0.5rem;
+}
+#optiuni{
+    padding: 0.5rem;
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <title>Elite Motors</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ("../fragments/head.ejs") %>
+    <link href="/static/css/carousel.css" rel="stylesheet">
+  </head>
+  <body>
+    <%- include ("../fragments/navbar.ejs") %>
+    <main>
+      <h1 class="text-center my-3">Bine ati venit pe site-ul Elite Motors!</h1>
+      <div id="carousel_home" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carousel_home" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carousel_home" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carousel_home" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carousel_home" data-bs-slide-to="3" aria-label="Slide 4"></button>
+          <button type="button" data-bs-target="#carousel_home" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active c-item">
+            <img src="/static/img/carousel/992gt3rs.jpg" class="d-block w-100 c-img" alt="masina">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Ești interesat de achiziția unei noi mașini, dar nu știi de unde să începi?</h3>
+              <p>Începe cu <b>Elite Motors</b> - experiență, încredere, transparență!</p>
+            </div>
+          </div>
+          <div class="carousel-item c-item">
+            <img src="/static/img/carousel/ark.jpg" class="d-block w-100 c-img" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Avand o vasta experiență în domeniu, <b>Elite Motors</b> va oferă o gama variata de masini premium.</h3>
+              <p>Asiguram clientilor nostri un proces de achizitie simplu si sigur.</p>
+            </div>
+          </div>
+          <div class="carousel-item c-item">
+            <img src="/static/img/carousel/cclass.jpg" class="d-block w-100 c-img" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Masinile pe care le oferim provin de la firme certificate</h3>
+              <p>Istoricul la zi, kilometri reali, expertiză tehnică</p>
+            </div>
+          </div>
+          <div class="carousel-item c-item">
+            <img src="/static/img/carousel/r8cabrio.jpg" class="d-block w-100 c-img" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Stam la dispozitia clientilor nostri cu servicii complete si asistenta</h3>
+              <p>Toate informatiile va sunt puse la dispozitie de catre agentii nostri</p>
+            </div>
+          </div>
+          <div class="carousel-item c-item">
+            <img src="/static/img/carousel/urus.jpg" class="d-block w-100 c-img" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Oferim metode avantajoase de achizitie a masinilor noastre</h3>
+              <p>Oferim achizitii directe, cat si prin finantare de tip leasing</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel_home" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel_home" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <h1 class="text-center my-2">Ofertele zilei</h1>
+          <div class="container" id="oferte">
+            <div class="row row-cols-3">
+              <% if(locals.nr_rez!=0) {
+                for (let masina of locals.masini_afis) { %>
+                <div class="col-12 col-xl-4 col-lg-4 col-md-6 masini" style="margin-bottom: 1rem;" id="card_id_<%-masina.id_masina%>">
+                  <div class="card" style="border-radius: 0.7rem;">
+                    <img src="/static/img/masini/<%- masina.imagine %>"  style="border-top-right-radius: 0.7rem; border-top-left-radius: 0.7rem ;" class="card-img-top img-fluid" alt="<%- masina.brand %>,<%- masina.model %>">
+                    <div class="card-body">
+                      <h3 class="card-title val_brand"><%- masina.brand %></h5>
+                      <h4 class="card-subtitle mb-2 text-body-secondary"><%- masina.model %></h6> 
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">Pret: <span class="val_pret"><%- masina.pret %></span>&euro;</li>
+                    </ul>
+                    <div class="card-body">
+                      <div class="d-grid gap-2">
+                        <a class="btn btn-primary" href="/masini/detalii/<%-masina.id_masina%>" role="button">Detalii</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% }}else{ %>
+                <div id="eroarePlaceholderRez"><div class="alert alert-primary" role="alert">A aparut o eroare la afisarea ofertelor!</div></div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </main>
+  </body>
+  <%- include ("../fragments/footer.ejs") %>
+</html>

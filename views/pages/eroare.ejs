@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <title>Elite Motors - Eroare</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ("../fragments/head.ejs") %>
+  </head>
+  <body>
+    <%- include ("../fragments/navbar.ejs") %>
+    <br>
+    <main>
+      <h1 class="text-center"><b><%-locals.err%></b></h1>
+      <br>
+      <div class="d-grid gap-2">
+          <a class="btn btn-primary" type="button" href="/masini">Inapoi la masini</a>
+      </div>
+    </main>
+  </body>
+  <%- include ("../fragments/footer.ejs") %>
+</html>

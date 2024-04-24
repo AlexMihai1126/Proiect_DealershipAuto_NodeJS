@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <title>Confirmare rezervare</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ("../fragments/head.ejs") %>
+  </head>
+  <body>
+    <%- include ("../fragments/navbar.ejs") %>
+    <main>
+      <h1>Ati rezervat cu succes masina!</h1>
+      <div class="d-grid gap-2">
+        <a class="btn btn-primary" type="button" href="/">Inapoi la homepage</a>
+      </div>
+      <div class="container">
+          <div class="card text-center">
+          <img src="/static/img/masini/<%- locals.masina.imagine %>" style="max-width: 450px;" class="card-img-top mx-auto d-block" alt="<%- locals.masina.brand %>,<%- locals.masina.model %>">
+          <div class="card-body">
+              <h2 class="card-title val_brand"><%- locals.masina.brand %></h5>
+              <h3 class="card-subtitle mb-2 text-body-secondary"><%- locals.masina.model %></h6> 
+              <p class="card-text">Descriere: <%- locals.masina.descriere %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item">An fabricatie: <%- locals.masina.an_fabricatie %></li>
+              <li class="list-group-item">Numar VIN: <%- locals.masina.vin %></li>
+              <li class="list-group-item">Accident in istoric: <%- locals.masina.accident %></li>
+              <li class="list-group-item">Km: <span class="val_km"><%- locals.masina.km %></span></li>
+              <li class="list-group-item">Pret: <span class="val_pret"><%- locals.masina.pret %></span>&euro;</li>
+          </ul>
+          </div>
+          </div>
+        </div>
+    </main>
+  </body>
+  <%- include ("../fragments/footer.ejs") %>
+</html>

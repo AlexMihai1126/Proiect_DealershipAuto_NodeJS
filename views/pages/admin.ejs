@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <title>Admin | Elite Motors</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ("../fragments/head.ejs") %>
+    <script type="text/javascript" src=/static/js/acc.js></script>
+    <p style="display: none;" id="nr_rez"><%-nr_rez%></p>
+    <p style="display: none;" id="nr_m"><%-nr_m%></p>
+  </head>
+  <body>
+    <%- include ("../fragments/navbar.ejs") %>
+    <main>
+      <h1>Salut, <b><%=admin_email%></b></h1>
+      <div class="row">
+        <a class="btn btn-primary" href="/utilizator/logout" role="button">Logout</a>
+      </div>
+      <hr>
+      <h1>Rezervari</h1>
+      <div id="eroarePlaceholderRez"></div>
+      <div class="table-responsive">
+        <table id="rezervari_tabel" class="table">
+            <thead>
+              <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>VIN</th>
+                <th>Data rezervarii</th>
+                <th>Email user</th>
+                <th>Sterge</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (let rez of locals.rezervari) { %>
+                <tr>
+                  <form method="post">
+                    <td>
+                      <input class="form-control" type="text" name="brand_rez" value="<%- rez.brand %>" readonly disabled>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="model_rez" value="<%- rez.model %>" readonly disabled>
+                      </td>
+                    <td>
+                        <input class="form-control" type="text" name="vin_rez" value="<%- rez.vin %>" readonly disabled>
+                    </td>
+                    <td>
+                      <%
+                        let d=new Date(parseInt(rez.data)).toString();
+                        var timeStampVector= d.split(" ");
+                        var dateTimeSec=timeStampVector[4].split(":");
+                        var data_ad=timeStampVector[1] + " "+ timeStampVector[2] + " " + timeStampVector[3] + " " + dateTimeSec[0] + ":" + dateTimeSec[1] + ":" + dateTimeSec[2];
+                      %>
+                      <input class="form-control" type="text" name="data_rezervarii" value="<%-data_ad %>" readonly disabled>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="utilizator_email" value="<%- rez.email %>" readonly disabled>
+                    </td>
+                    <td>
+                      <button class="btn btn-primary" type="submit" formaction="/stergeRezervare/<%-rez.id_masina%>">Sterge rezervarea</button>
+                    </td>
+                  </form>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+      </div>
+      <hr>
+      <h1>Masini</h1>
+      <div id="eroarePlaceholderM"></div>
+      <div class="table-responsive">
+        <table id="masini_tabel" class="table">
+            <thead>
+              <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>VIN</th>
+                <th>Sterge</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (let masina of locals.masini) { %>
+                <tr>
+                  <form method="post">
+                    <td>
+                      <input class="form-control" type="text" name="masina_brand" value="<%- masina.brand %>" readonly disabled>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="masina_model" value="<%- masina.model %>" readonly disabled>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="masina_vin" value="<%- masina.vin %>" readonly disabled>
+                    </td>
+                    <td>
+                      <button class="btn btn-primary" type="submit" formaction="/stergeMasina/<%-masina.id_masina%>">Sterge masina</button>
+                    </td>
+                  </form>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+      </div>
+    </main>
+  </body>
+  <%- include ("../fragments/footer.ejs") %>
+</html>

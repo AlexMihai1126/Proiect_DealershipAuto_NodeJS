@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <title>Creare cont | Elite Motors</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ("../fragments/head.ejs") %>
+  </head>
+  <body>
+    <%- include ("../fragments/navbar.ejs") %>
+    <main>
+      <h1>Creare cont pe site-ul nostru</h1>
+      <% if(typeof(err)!='undefined') { %>
+        <% err.forEach(error1 => { %>
+          <div class="alert alert-primary" role="alert">
+            <p style="margin-top: 0; margin-bottom: 0;"><%= error1.mesaj %></p>
+          </div>
+        <% }) %>
+      <% } %>
+      <form class="row g-3" action="/utilizator/signup" method="POST">
+        <div class="col-md-6">
+          <label for="Nume" class="form-label">Nume</label>
+          <input class="form-control" type="text" placeholder="Numele dvs." id="nume" name="nume" required>
+        </div>
+        <div class="col-md-6">
+          <label for="prenume" class="form-label">Prenume</label>
+          <input class="form-control" type="text" placeholder="Prenumele dvs." id="prenume" name="prenume" required>
+        </div>
+        <div class="col-12">
+          <label for="email" class="form-label">Adresa de e-mail</label>
+          <input type="email" class="form-control" placeholder="email@test.ro" id="email" name="email" required>
+        </div>
+        <div class="col-md-6">
+          <label for="parola" class="form-label">Parola dvs.</label>
+          <input type="password" class="form-control" placeholder="parola" id="parola" name="parola" required>
+          <div id="text-parola" class="form-text">Recomandam ca parola dvs. sa aiba mai mult de 8 caractere (maxim 63), sa contina numere si caractere speciale.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="parola_confirm" class="form-label">Parola dvs. din nou</label>
+          <input type="password" class="form-control" placeholder="confirmare parola" id="parola_conf" name="parola_conf" required>
+        </div>
+        <div class="col-md-6">
+          <label for="tel" class="form-label">Numar de telefon</label>
+          <input class="form-control" type="text" placeholder="Telefon" id="tel" name="tel" required>
+        </div>
+        <div class="col-md-6">
+          <label for="adresa" class="form-label">Adresa</label>
+          <input class="form-control" type="text" placeholder="Adresa dvs." id="addr" name="addr" required>
+        </div>
+        <div class="btn-group" role="group" aria-label="Butoane signup">
+          <button type="submit" class="btn btn-outline-primary">Creare cont!</button>
+          <a class="btn btn-outline-primary" role="button" href="/utilizator/login">Ai deja un cont? Logheaza-te aici.</a>
+        </div>
+      </form>
+    </main>
+  </body>
+  <%- include ("../fragments/footer.ejs") %>
+</html>

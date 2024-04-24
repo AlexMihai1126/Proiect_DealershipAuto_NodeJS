@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | Elite Motors</title>
+    <%- include ("../fragments/head.ejs") %>
+  </head>
+  <body>
+    <%- include ("../fragments/navbar.ejs") %>
+    <main>
+      <h1>Bine ati revenit! Va rugam sa va logati pe site.</h1>
+      <% if(messages.succes) { %>
+        <div class="alert alert-primary" role="alert">
+          <p style="margin-top: 0; margin-bottom: 0;"><%= messages.succes %></p>
+        </div>
+      <% } %>
+  
+      <% if(messages.error) { %>
+        <div class="alert alert-primary" role="alert">
+          <p style="margin-top: 0; margin-bottom: 0;"><%= messages.error %></p>
+        </div>
+      <% } %>
+      <form class="row g-3" action="/utilizator/login" method="POST">
+        <div class="col-md-6">
+          <label for="email" class="form-label">Adresa de e-mail</label>
+          <input type="email" class="form-control" placeholder="email@test.ro" id="email" name="email" required>
+        </div>
+        <div class="col-md-6">
+          <label for="parola" class="form-label">Parola dvs.</label>
+          <input type="password" class="form-control" placeholder="parola" id="parola" name="parola" required>
+        </div>
+        <div class="btn-group" role="group" aria-label="Butoane login">
+          <button type="submit" class="btn btn-outline-primary">Intra in cont</button>
+          <a class="btn btn-outline-primary" role="button" href="/utilizator/signup">Nu ai cont? Creeaza unul.</a>
+        </div>
+      </form>
+    </main>
+  </body>
+  <%- include ("../fragments/footer.ejs") %>
+</html>

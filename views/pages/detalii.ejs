@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <title>Detalii masina</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ("../fragments/head.ejs") %>
+  </head>
+  <body>
+    <%- include ("../fragments/navbar.ejs") %>
+    <main>
+        <h1 class="text-center my-3">Detalii despre masina</h1>
+        <div class="container">
+            <div class="row row-cols-3">
+                <div class="col-12" style="margin-bottom: 1rem;" id="card_id_<%-locals.masina.id_masina%>">
+                <div class="card" style="border-radius: 0.7rem;">
+                    <img src="/static/img/masini/<%- locals.masina.imagine %>"  style="border-top-right-radius: 0.7rem; border-top-left-radius: 0.7rem ;" class="card-img-top img-fluid" alt="<%- masina.brand %>,<%- masina.model %>">
+                    <div class="card-body">
+                    <h3 class="card-title val_brand"><%- locals.masina.brand %></h5>
+                    <h4 class="card-subtitle mb-2 text-body-secondary"><%- masina.model %></h6> 
+                    <p class="card-text">Descriere: <%- locals.masina.descriere %></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">An fabricatie: <%- locals.masina.an_fabricatie %></li>
+                    <li class="list-group-item">Numar VIN: <%- locals.masina.vin %></li>
+                    <li class="list-group-item">Accident in istoric: <%- locals.masina.accident %></li>
+                    <li class="list-group-item">Km: <span class="val_km"><%- locals.masina.km %></span></li>
+                    <li class="list-group-item">Pret: <span class="val_pret"><%- locals.masina.pret %></span>&euro;</li>
+                    </ul>
+                    <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" href="/masini/rezerva/<%-locals.masina.id_masina%>" role="button">Rezerva</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<%- include ("../fragments/footer.ejs") %>
+</html>    
