@@ -10,6 +10,7 @@ const initPassport = require("./passportConfig");
 const sass = require('sass');
 const fs = require("fs");
 const path = require('path');
+const formidable = require('formidable');
 
 initPassport(passport);
 
@@ -223,51 +224,58 @@ app.get("/authErr", function(req, res){
     res.render("pages/eroare",{err:"Nu esti logat pe site, nu poti rezerva o masina."});
 });
 
+
 app.post("/utilizator/signup", async function(req, res){
-    let {nume, prenume, email, parola, parola_conf, tel, addr} = req.body; //citim din formular in acest obiect
-    let err = []; //vectorul de erori pe care il vom trimite catre ejs pt afisare
-    if(!nume || !prenume || !email || !parola || !parola_conf){
-        err.push({mesaj:"Va rugam introduceti toate datele necesare!"});
-    }; //daca nu exista da eroare (am rezolvat cu validare la nivel de formular)
+    const form = new formidable.IncomingForm();
+    
+    form.parse(req, async function(errForm, fields, files) {
+        if (errForm) {
+            console.error('Error parsing form:', errForm);
+            return res.status(500).send('Internal Server Error');
+        }
+        let err = []; //vectorul de erori pe care il vom trimite catre ejs pt afisare
+        if(!fields.nume[0] || !fields.prenume[0] || !fields.email[0] || !fields.parola[0] || !fields.parola_conf[0]){
+            err.push({mesaj:"Va rugam introduceti toate datele necesare!"});
+        }; //daca nu exista da eroare (am rezolvat cu validare la nivel de formular)
 
-    if(parola.length <8){
-        err.push({mesaj:"Parola trebuie sa aiba minim 8 caractere!"});
-    }
+        if(fields.parola[0].length < 8){
+            err.push({mesaj:"Parola trebuie sa aiba minim 8 caractere!"});
+        }
 
-    if(parola != parola_conf){
-        err.push({mesaj:"Parolele nu se potrivesc!"});
-    }
+        if(fields.parola[0] !== fields.parola_conf[0]){
+            err.push({mesaj:"Parolele nu se potrivesc!"});
+        }
 
-    if(err.length>0){
-        res.render("pages/signup", {err}); //daca avem erori vom regenera pagina cu erorile afisate
-    } else{
-        let hashPass= await bcr.hash(parola, 10); //cripteaza parola cu 10 runde de criptare in algoritm
-        client.query(
-            `SELECT * FROM utilizatori WHERE email = $1`, [email] , function(queryErr, queryRez){
-                if(queryErr){
-                    throw queryErr;
+        if(err.length > 0){
+            res.render("pages/signup", {err}); //daca avem erori vom regenera pagina cu erorile afisate
+        } else{
+            let hashPass = await bcr.hash(fields.parola[0], 10); //cripteaza parola cu 10 runde de criptare in algoritm
+            client.query(
+                `SELECT * FROM utilizatori WHERE email = $1`, [fields.email[0]] , function(queryErr, queryRez){
+                    if(queryErr){
+                        throw queryErr;
+                    }
+
+                    if(queryRez.rows.length > 0){
+                        err.push({mesaj:"Deja ai un cont la noi pe site! Acest email deja exista in baza de date."});
+                        res.render("pages/signup", {err});
+                    } else{
+                        client.query(
+                            `INSERT INTO utilizatori (nume, prenume, email, parola, telefon, adresa) values($1, $2, $3, $4, $5, $6) RETURNING id, parola`, [fields.nume[0], fields.prenume[0], fields.email[0], hashPass, fields.tel[0], fields.addr[0]], function(queryErrIns, queryResIns){
+                                if(queryErrIns){
+                                    throw queryErrIns;
+                                } //cererea in baza de date care introduce noul user
+                                req.flash("succes", "Contul a fost creat");
+                                res.redirect("/utilizator/login"); //redirectioneaza catre pagina de login
+                            }
+                        )
+                    }
                 }
-
-                if(queryRez.rows.length>0){
-                    err.push({mesaj:"Deja ai un cont la noi pe site! Acest email deja exista in baza de date."});
-                    res.render("pages/signup", {err});
-                }else{
-                    client.query(
-                        `INSERT INTO utilizatori (nume, prenume, email, parola, telefon, adresa) values($1, $2, $3, $4, $5, $6) RETURNING id, parola`, [nume, prenume, email, hashPass, tel, addr], function(queryErrIns, queryResIns){
-                            if(queryErrIns){
-                                throw queryErrIns;
-                            } //cererea in baza de date care introduce noul user
-                            req.flash("succes", "Contul a fost creat");
-                            res.redirect("/utilizator/login"); //redirectioneaza catre pagina de login
-                        }
-                    )
-                }
-            }
-        )
-    }
-
-    // console.log(err);
+            )
+        }
+    });
 });
+
 
 app.post("/utilizator/login", passport.authenticate('local', {
     successRedirect: '/utilizator/home',

@@ -17,9 +17,9 @@
           </div>
         <% }) %>
       <% } %>
-      <form class="row g-3" action="/utilizator/signup" method="POST">
+      <form class="row g-3" action="/utilizator/signup" method="POST" enctype="multipart/form-data">
         <div class="col-md-6">
-          <label for="Nume" class="form-label">Nume</label>
+          <label for="nume" class="form-label">Nume</label>
           <input class="form-control" type="text" placeholder="Numele dvs." id="nume" name="nume" required>
         </div>
         <div class="col-md-6">
@@ -36,7 +36,7 @@
           <div id="text-parola" class="form-text">Recomandam ca parola dvs. sa aiba mai mult de 8 caractere (maxim 63), sa contina numere si caractere speciale.</div>
         </div>
         <div class="col-md-6">
-          <label for="parola_confirm" class="form-label">Parola dvs. din nou</label>
+          <label for="parola_conf" class="form-label">Parola dvs. din nou</label>
           <input type="password" class="form-control" placeholder="confirmare parola" id="parola_conf" name="parola_conf" required>
         </div>
         <div class="col-md-6">
@@ -44,7 +44,7 @@
           <input class="form-control" type="text" placeholder="Telefon" id="tel" name="tel" required>
         </div>
         <div class="col-md-6">
-          <label for="adresa" class="form-label">Adresa</label>
+          <label for="addr" class="form-label">Adresa</label>
           <input class="form-control" type="text" placeholder="Adresa dvs." id="addr" name="addr" required>
         </div>
         <div class="btn-group" role="group" aria-label="Butoane signup">
