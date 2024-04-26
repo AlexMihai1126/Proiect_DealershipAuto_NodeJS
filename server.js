@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({path:"/"});
 const express = require("express");
 const app = express();
 const { Client } = require("pg");
@@ -11,6 +11,17 @@ const sass = require('sass');
 const fs = require("fs");
 const path = require('path');
 const formidable = require('formidable');
+const { Sequelize } = require('sequelize');
+
+const sequelize = new Sequelize({
+    dialect: 'postgres',
+    database:process.env.DB_NAME,
+    username:process.env.DB_USER,
+    password: process.env.DB_PASS,
+    host: process.env.DB_ADDR,
+    port: process.env.DB_PORT,
+    ssl: true,
+  });
 
 initPassport(passport);
 
@@ -34,6 +45,7 @@ var client= new Client({database:`${process.env.DB_NAME}`,
         host:`${process.env.DB_ADDR}`,
         port:process.env.DB_PORT});
 client.connect();
+
 
 const PORT= process.env.PORT || 32767;
 
