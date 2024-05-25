@@ -32,5 +32,10 @@
     "url": "https://github.com/AlexMihai1126/Proiect_DealershipAuto_NodeJS/issues"
   },
   "homepage": "https://github.com/AlexMihai1126/Proiect_DealershipAuto_NodeJS#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^9.1.1",
+    "eslint": "^9.1.1",
+    "globals": "^15.0.0"
+  }
 }

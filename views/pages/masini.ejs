@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ro">
   <head>
-    <div id="nr_masini" style="display: none;"><%-locals.nr_rez%></div>
+    <div id="nr_masini" style="display: none;"><%-locals.carCount%></div>
     <title>Masini disponibile | Elite Motors</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,18 +18,18 @@
           <label class="form-label" for="inp_brand">Brand:</label>
           <input class="form-control" list="id_brand" id="inp_brand" placeholder="Cauta branduri">
           <datalist id="id_brand">
-              <% for (let opt of locals.branduri) { %>
+              <% for (let opt of locals.carBrands) { %>
                   <option value="<%- opt.unnest %>"><%- opt.unnest %></option>
               <% } %>
           </datalist>
         </div>
         <div class="col">
           <label for="inp_pret" class="form-label">Pret maxim: <span id="pret_range"></span></label>
-          <input type="range" class="form-range" id="inp_pret" value="<%- locals.preturi_range[0].max %>" min= "<%- locals.preturi_range[0].min %>"  max="<%- locals.preturi_range[0].max %>">
+          <input type="range" class="form-range" id="inp_pret" value="<%- locals.priceRange[0].max %>" min= "<%- locals.priceRange[0].min %>"  max="<%- locals.priceRange[0].max %>">
         </div>
         <div class="col">
           <label for="inp_pret" class="form-label">Km maxim:  <span id="km_range"></span></label>
-          <input type="range" class="form-range" id="inp_km" value="<%- locals.km_range[0].max %>" min= "<%- locals.km_range[0].min %>"  max="<%- locals.km_range[0].max %>">
+          <input type="range" class="form-range" id="inp_km" value="<%- locals.kmRangers[0].max %>" min= "<%- locals.kmRange[0].min %>"  max="<%- locals.kmRange[0].max %>">
         </div>
       </div>
       <br>
